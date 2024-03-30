@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.de.undercouch.gradle.tasks.download.org.apache.commons.logging.LogFactory.release
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -30,6 +32,20 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            create<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "com.github.codeToLiveRana"
+                artifactId = "toasterLib"
+                version = "v0.8.0"
+            }
+        }
     }
 }
 
