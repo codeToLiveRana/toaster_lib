@@ -18,8 +18,8 @@ import java.util.Locale
 
 const val channelId = "notification_channel"
 const val channelName = "com.example.maverick"
-class PushNotificationSDK(private val context: Context)  {
 
+class PushNotificationSDK(private val context: Context) {
 
     companion object {
         @Volatile
@@ -33,38 +33,41 @@ class PushNotificationSDK(private val context: Context)  {
     }
 
 
-
     fun configure(context: Context) {
         // Initialize Firebase
         // You should initialize Firebase in the consumer app
     }
 
-    fun <T> handleRemoteMessage(notification: Notification, data: Map<String, String>, classValue: AppCompatActivity) {
+    fun <T> handleRemoteMessage(data: Map<String, String>, classValue: Class<AppCompatActivity>) {
         // Check if message contains a notification payload.
 
-        if (notification != null) {
-            var dataMap: Map<String, String> = HashMap()
-            var noteType: String? = ""
-            dataMap["asdad:dsadasd"]
-            if (data.isNotEmpty()) {
-                noteType = data["type"]
-                dataMap = data
-                println(dataMap.map { "${it.key}: ${it.value}" }.joinToString(", "))
-            }
-            when (noteType) {
-                "Text" -> generateNotificationText(dataMap,classValue)
+
+        var dataMap: Map<String, String> = HashMap()
+        var noteType: String? = ""
+        dataMap["asdad:dsadasd"]
+        if (data.isNotEmpty()) {
+            noteType = data["type"]
+            dataMap = data
+            println(dataMap.map { "${it.key}: ${it.value}" }.joinToString(", "))
+        }
+        when (noteType) {
+            "Text" -> generateNotificationText(dataMap, classValue)
 //                "Image" -> generateNotificationWithImage(dataMap)
 //                "Expandable" -> generateNotificationExpandable(dataMap)
 //                "HeadsUp" -> generateNotificationHeadsUp(dataMap)
 //                "Sticky" -> generateNotificationSticky(dataMap)
 //                "Action" -> generateNotificationActionButton(dataMap)
-            }        }
-
-        // TODO: Handle other types of payloads if needed.
+        }
     }
 
+// TODO: Handle other types of payloads if needed.
+
+
     @SuppressLint("MissingPermission")
-    fun generateNotificationText(dataMap: Map<String, String>, classValue: AppCompatActivity) {
+    fun generateNotificationText(
+        dataMap: Map<String, String>,
+        classValue: Class<AppCompatActivity>
+    ) {
 
         println("Text Notifcation")
 
@@ -110,7 +113,10 @@ class PushNotificationSDK(private val context: Context)  {
         notificationManagerCompat.notify(notificationId, builder.build())
     }
 
-
-
-
 }
+
+
+
+
+
+
