@@ -1,6 +1,7 @@
 package com.example.toaster
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -14,6 +15,7 @@ import androidx.core.app.NotificationManagerCompat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.reflect.KClass
 
 
 const val channelId = "notification_channel"
@@ -38,7 +40,7 @@ class PushNotificationSDK(private val context: Context) {
         // You should initialize Firebase in the consumer app
     }
 
-    fun <T> handleRemoteMessage(data: Map<String, String>, classValue: Class<*>) {
+    fun <T> handleRemoteMessage(data: Map<String, String>, classValue: KClass<out Activity>) {
         // Check if message contains a notification payload.
 
 
@@ -66,15 +68,15 @@ class PushNotificationSDK(private val context: Context) {
     @SuppressLint("MissingPermission")
     fun generateNotificationText(
         dataMap: Map<String, String>,
-        classValue: Class<*>
+        classValue: KClass<out Activity>
     ) {
 
         println("Text Notifcation")
 
         val title = dataMap["title"]
         val message = dataMap["message"]
+          val mainIntent = Intent(context, classValue.java)
 
-        val mainIntent = Intent(context, classValue)
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
         val date = Date()
