@@ -40,7 +40,7 @@ class PushNotificationSDK(private val context: Context) {
         // You should initialize Firebase in the consumer app
     }
 
-    fun <T> handleRemoteMessage(data: Map<String, String>, classValue: KClass<out Activity>) {
+    fun <T : Activity> handleRemoteMessage(data: Map<String, String>, classValue: KClass<T>) {
         // Check if message contains a notification payload.
 
 
@@ -66,9 +66,9 @@ class PushNotificationSDK(private val context: Context) {
 
 
     @SuppressLint("MissingPermission")
-    fun generateNotificationText(
+    fun <T : Activity> generateNotificationText(
         dataMap: Map<String, String>,
-        classValue: KClass<out Activity>
+        classValue: KClass<T>
     ) {
 
         println("Text Notifcation")
